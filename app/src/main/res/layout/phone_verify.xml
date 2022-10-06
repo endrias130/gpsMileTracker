@@ -1,0 +1,465 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#fff"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
+            android:layout_marginLeft="18dp"
+            android:layout_marginTop="33dp"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/backOut"
+                android:layout_width="21.5dp"
+                android:layout_height="21.5dp"
+                app:srcCompat="@drawable/arrow" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/numberinfo"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="top"
+            android:orientation="vertical"
+            android:visibility="visible"
+            >
+
+            <TextView
+                android:id="@+id/whatNum"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="50dp"
+                android:layout_marginTop="33dp"
+                android:fontFamily="@font/baloo"
+                android:gravity="center"
+                android:text="What's Your Number?"
+                android:textColor="#484848"
+                android:textSize="27sp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="38dp"
+                android:layout_marginRight="38dp"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:id="@+id/code"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:layout_marginRight="12.5dp"
+                    android:layout_marginTop="3dp"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/postcodes"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="3.2dp"
+                            android:text="USA +1"
+                            android:textColor="#464646"
+                            android:textSize="17sp" />
+
+                        <ImageView
+                            android:id="@+id/imageView3"
+                            android:layout_width="16.8dp"
+                            android:layout_height="16.8dp"
+                            android:layout_gravity="center"
+                            android:layout_marginLeft="5.7dp"
+                            android:layout_weight="1"
+                            app:srcCompat="@drawable/drop_down" />
+
+                    </LinearLayout>
+
+                    <androidx.appcompat.widget.Toolbar
+                        android:id="@+id/toolbar"
+                        android:layout_width="match_parent"
+                        android:layout_height=".83dp"
+                        android:background="#000"
+                        android:minHeight="?attr/actionBarSize"
+                        android:theme="?attr/actionBarTheme" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+
+                    <EditText
+                        android:id="@+id/numbertext"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:backgroundTint="#80bcf5"
+                        android:ems="10"
+                        android:hint="Number"
+                        android:inputType="number|textPersonName"
+                        android:textColor="#202020"
+                        android:textColorHighlight="#80bcf5"
+                        android:textColorLink="#80bcf5"
+                        android:textSize="19.8sp"
+                        tools:visibility="visible" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/textInfo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginBottom="20dp"
+                android:layout_marginTop="55dp"
+                android:gravity="center"
+                android:paddingLeft="25dp"
+                android:paddingRight="25dp"
+                android:text="The next step is to send a text message with a verification code. Message and data rates may apply. The verified phone number can be used to login."
+                android:textColor="#999999"
+                android:textSize="15sp" />
+
+            <LinearLayout
+                android:id="@+id/verify_num"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="62dp"
+                android:layout_marginRight="62dp"
+                android:layout_marginTop="38dp"
+                android:background="@drawable/contine_on"
+                android:orientation="vertical"
+                android:paddingBottom="12dp"
+                android:paddingTop="12dp"
+                android:visibility="gone">
+
+                <TextView
+                    android:id="@+id/verify_click"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/baloo"
+                    android:gravity="center"
+                    android:shadowColor="#000"
+                    android:shadowDx="2.1"
+                    android:shadowDy="2.1"
+                    android:shadowRadius="2.1"
+                    android:text="Verifying.."
+                    android:textColor="#fff"
+                    android:textSize="24.5sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/on"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="70dp"
+                android:layout_marginRight="70dp"
+                android:layout_marginTop="38dp"
+                android:background="@drawable/contine_on"
+                android:orientation="vertical"
+                android:paddingBottom="13dp"
+                android:paddingTop="13dp"
+                android:visibility="gone">
+
+                <TextView
+                    android:id="@+id/onbuttonn"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/baloo"
+                    android:gravity="center"
+                    android:shadowColor="#000"
+                    android:shadowDx="2.1"
+                    android:shadowDy="2.1"
+                    android:shadowRadius="2.1"
+                    android:text="Continue"
+                    android:textColor="#fff"
+                    android:textSize="24.5sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/off"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="70dp"
+                android:layout_marginRight="70dp"
+                android:layout_marginTop="38dp"
+                android:background="@drawable/contine_off"
+                android:orientation="vertical"
+                android:paddingBottom="13dp"
+                android:paddingTop="13dp"
+                android:visibility="visible">
+
+                <TextView
+                    android:id="@+id/off_button"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/baloo"
+                    android:gravity="center"
+                    android:text="Continue"
+                    android:textColor="#555555"
+                    android:textSize="22sp" />
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/verify"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:visibility="gone"
+            >
+
+            <TextView
+                android:id="@+id/textView6"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="26dp"
+                android:layout_marginTop="7dp"
+                android:fontFamily="@font/baloo"
+                android:gravity="center"
+                android:text="My Code is.."
+                android:textColor="#484848"
+                android:textSize="27sp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="3.2dp"
+                android:layout_marginRight="5dp"
+                android:layout_marginTop="5dp"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/imageView4"
+                    android:layout_width="21dp"
+                    android:layout_height="21dp"
+                    android:layout_marginLeft="10dp"
+                    app:srcCompat="@drawable/phone_icon" />
+
+                <TextView
+                    android:id="@+id/my_number"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="2dp"
+                    android:layout_marginRight="20dp"
+                    android:fontFamily="@font/baloo"
+                    android:gravity="center"
+                    android:paddingLeft="15dp"
+                    android:paddingRight="15dp"
+                    android:text="4044212069"
+                    android:textColor="#a5a5a5"
+                    android:textSize="17sp" />
+
+                <LinearLayout
+                    android:id="@+id/resend"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="27dp"
+                    android:background="@drawable/resendbackgroundtwo"
+                    android:orientation="vertical"
+                    android:padding="1dp">
+
+                    <TextView
+                        android:id="@+id/textView11"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:background="@drawable/resendbackgroundone"
+                        android:fontFamily="@font/baloo"
+                        android:gravity="center"
+                        android:paddingBottom="5.2dp"
+                        android:paddingLeft="10.6dp"
+                        android:paddingRight="12.8dp"
+                        android:paddingTop="5.2dp"
+                        android:text="Sent!"
+                        android:textColor="#a5a5a5"
+                        android:textSize="13sp" />
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center|top"
+                android:layout_marginBottom="7dp"
+                android:layout_marginRight="3dp"
+                android:layout_marginTop="20dp"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+
+                <EditText
+                    android:id="@+id/code1"
+                    android:layout_width="45dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="9dp"
+                    android:fontFamily="@font/baloo"
+                    android:gravity="center"
+                    android:imeOptions="actionNext"
+                    android:importantForAutofill="no"
+                    android:inputType="number"
+                    android:maxLength="1"
+                    android:textColor="#f79a4c"
+                    android:textSize="28sp"
+                    android:textStyle="normal"
+                    tools:ignore="LabelFor">
+
+
+                </EditText>
+
+                <EditText
+                    android:id="@+id/code2"
+                    android:layout_width="45dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="9dp"
+                    android:fontFamily="@font/baloo"
+                    android:gravity="center"
+                    android:imeOptions="actionNext"
+                    android:importantForAutofill="no"
+                    android:inputType="number"
+                    android:maxLength="1"
+                    android:textColor="#f79a4c"
+                    android:textSize="28sp"
+                    android:textStyle="normal"
+                    tools:ignore="LabelFor">
+
+
+                </EditText>
+
+                <EditText
+                    android:id="@+id/code3"
+                    android:layout_width="45dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="9dp"
+                    android:fontFamily="@font/baloo"
+                    android:gravity="center"
+                    android:imeOptions="actionNext"
+                    android:importantForAutofill="no"
+                    android:inputType="number"
+                    android:maxLength="1"
+                    android:textColor="#f79a4c"
+                    android:textSize="28sp"
+                    android:textStyle="normal"
+                    tools:ignore="LabelFor">
+
+
+                </EditText>
+
+
+                <EditText
+                    android:id="@+id/code4"
+                    android:layout_width="45dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="9dp"
+                    android:fontFamily="@font/baloo"
+                    android:gravity="center"
+                    android:imeOptions="actionNext"
+                    android:importantForAutofill="no"
+                    android:inputType="number"
+                    android:maxLength="1"
+                    android:textColor="#f79a4c"
+                    android:textSize="28sp"
+                    android:textStyle="normal"
+                    tools:ignore="LabelFor">
+
+
+                </EditText>
+
+                <EditText
+                    android:id="@+id/code5"
+                    android:layout_width="45dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="9dp"
+                    android:fontFamily="@font/baloo"
+                    android:gravity="center"
+                    android:imeOptions="actionNext"
+                    android:importantForAutofill="no"
+                    android:inputType="number"
+                    android:maxLength="1"
+                    android:textColor="#f79a4c"
+                    android:textSize="28sp"
+                    android:textStyle="normal"
+                    tools:ignore="LabelFor">
+
+
+                </EditText>
+
+                <EditText
+                    android:id="@+id/code6"
+                    android:layout_width="45dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="9dp"
+                    android:fontFamily="@font/baloo"
+                    android:gravity="center"
+                    android:imeOptions="actionNext"
+                    android:importantForAutofill="no"
+                    android:inputType="number"
+                    android:maxLength="1"
+                    android:textColor="#f79a4c"
+                    android:textSize="28sp"
+                    android:textStyle="normal"
+                    tools:ignore="LabelFor">
+
+
+                </EditText>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/to_email_class"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="62dp"
+                android:layout_marginRight="62dp"
+                android:layout_marginTop="60dp"
+                android:background="@drawable/contine_on"
+                android:orientation="vertical"
+                android:paddingBottom="12dp"
+                android:paddingTop="12dp">
+
+                <TextView
+                    android:id="@+id/nexttwo"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/baloo"
+                    android:gravity="center"
+                    android:shadowColor="#000"
+                    android:shadowDx="2.1"
+                    android:shadowDy="2.1"
+                    android:shadowRadius="2.1"
+                    android:text="Continue"
+                    android:textColor="#fff"
+                    android:textSize="25sp" />
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</RelativeLayout>

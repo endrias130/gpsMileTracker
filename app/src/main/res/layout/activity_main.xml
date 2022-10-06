@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#000"
+    tools:context=".MainActivity">
+
+    <ImageView
+        android:id="@+id/imageView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:scaleType="centerCrop"
+        app:srcCompat="@drawable/mytrack" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/titlez"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:fontFamily="@font/carter_one"
+            android:gravity="center"
+            android:shadowColor="#000"
+            android:shadowDx="5.3"
+            android:shadowDy="5.3"
+            android:shadowRadius="5.3"
+            android:text="My Tracker"
+            android:textColor="#fff"
+            android:textSize="46dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:visibility="visible" />
+
+        <LinearLayout
+            android:id="@+id/google_signin"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginBottom="27dp"
+            android:layout_marginLeft="26dp"
+            android:layout_marginRight="26dp"
+            android:background="@drawable/login_background"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:paddingBottom="17.5dp"
+            android:paddingTop="17.5dp"
+            android:scaleX=".9"
+            android:scaleY=".9">
+
+            <ImageView
+                android:id="@+id/imageView"
+                android:layout_width="22dp"
+                android:layout_height="22dp"
+                android:layout_marginLeft="20dp"
+                app:srcCompat="@drawable/googleicon" />
+
+            <TextView
+                android:id="@+id/email_google"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="18dp"
+                android:layout_weight="1"
+                android:fontFamily="@font/candal"
+                android:gravity="center"
+                android:text="Log In With Google"
+                android:textColor="#5d5d5d"
+                android:textSize="15.2sp"
+                android:textStyle="normal" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/phone_signin"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginBottom="28dp"
+            android:layout_marginLeft="26dp"
+            android:layout_marginRight="26dp"
+            android:background="@drawable/login_background"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:paddingBottom="19dp"
+            android:paddingLeft="12dp"
+            android:paddingRight="12dp"
+            android:paddingTop="19dp"
+            android:scaleX=".9"
+            android:scaleY=".9">
+
+            <ImageView
+                android:id="@+id/imageView"
+                android:layout_width="20.5dp"
+                android:layout_height="20.5dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="20dp"
+                app:srcCompat="@drawable/phone_icon" />
+
+            <TextView
+                android:id="@+id/phone_num"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="20dp"
+                android:layout_weight="1"
+                android:fontFamily="@font/candal"
+                android:gravity="center"
+                android:paddingLeft="5dp"
+                android:paddingRight="5dp"
+                android:text="Log In With Phone Num"
+                android:textColor="#5d5d5d"
+                android:textSize="15sp"
+                android:textStyle="normal" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="Settings"
+            android:textColor="#393939"
+            android:textSize="25dp"
+            android:textStyle="normal"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/termz"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="36dp"
+            android:layout_marginTop="10dp"
+            android:fontFamily="@font/roboto_medium"
+            android:gravity="center"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:text="By logging in, you are agreeing to have your data shared in orderr to use our services. Data such as GPS coordinates can be tracked and used for this app."
+            android:textColor="#fff"
+            android:textSize="16dp"
+            android:textStyle="normal"
+            android:visibility="visible"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+    </LinearLayout>
+</RelativeLayout>

@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "521758146012",
+    "project_id": "my-tracker-bf3dc",
+    "storage_bucket": "my-tracker-bf3dc.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:521758146012:android:7f8ff50beab813c6722319",
+        "android_client_info": {
+          "package_name": "com.example.gpsmiletracker"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "521758146012-stcer7b0drp7gapfk8tne2mqggj7eb6r.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyADl03G6Px0WHOw24h11pntnh0Y5tLwK7o"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "521758146012-stcer7b0drp7gapfk8tne2mqggj7eb6r.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
