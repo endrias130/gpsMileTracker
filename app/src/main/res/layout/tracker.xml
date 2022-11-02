@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/imageView5"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="fitCenter"
+            app:srcCompat="@drawable/gps_image" />
+    </FrameLayout>
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_gravity="bottom|center"
+        android:layout_marginBottom="31dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginLeft="26dp"
+        android:layout_marginRight="26dp"
+        android:layout_marginStart="-4dp"
+        android:layout_marginTop="9dp"
+        android:layout_weight="0"
+        android:background="@drawable/login_background"
+        android:gravity="bottom"
+        android:orientation="horizontal"
+        android:paddingBottom="17.5dp"
+        android:paddingTop="17.5dp"
+        android:scaleX=".9"
+        android:scaleY=".9"
+        android:visibility="gone">
+
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="21dp"
+            android:layout_height="21dp"
+            android:layout_marginLeft="22dp"
+            android:layout_marginRight="27dp"
+            android:adjustViewBounds="true"
+            android:scaleType="centerCrop"
+            app:srcCompat="@drawable/magglass" />
+
+        <TextView
+            android:id="@+id/email_google"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="18dp"
+            android:layout_weight="1"
+            android:fontFamily="@font/candal"
+            android:gravity="left"
+            android:rotationX="0"
+            android:text="Where to?"
+            android:textColor="#5d5d5d"
+            android:textSize="15.2sp"
+            android:textStyle="normal" />
+    </LinearLayout>
+</RelativeLayout>
