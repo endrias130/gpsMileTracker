@@ -5,6 +5,7 @@ import androidx.activity.result.ActivityResultLauncher;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
 import android.Manifest;
 import android.content.Context;
@@ -64,160 +65,9 @@ public class MainActivity extends AppCompatActivity {
 
     String bust = "";
 
+    int PERMISSIONS_REQUEST = 111;
 
-    @Override
-    protected void onStart() {
-        super.onStart();
-
-
-        SharedPreferences languagePreference = getSharedPreferences("shared_preferences", MODE_PRIVATE);
-
-        if(languagePreference.contains("Language")) {
-
-            String lang = languagePreference.getString("Language", "");
-
-            if(!prefernceLang.equals(lang)) {
-
-
-                translateTextViews(lang);
-
-                prefernceLang = lang;
-            }
-
-        }
-
-    }
-
-
-    private void translateTextViews(String lang) {
-
-        if(lang.equals("Bengali/Bangla")) {
-
-            lang = "BENGALI";
-
-        }
-
-        else if(lang.equals("Chinese (Simplified)")) {
-
-            lang = "CHINESE_SIMPLIFIED";
-
-        }
-
-        else if(lang.equals("Chinese (Traditional)")) {
-
-            lang = "CHINESE_TRADITIONAL";
-
-        }
-
-        else {
-
-            lang = lang.toUpperCase();
-
-        }
-
-
-        if(!lang.equals("ENGLISH")) {
-
-            databaseReference.child("Languages").child("FrontPage").child(lang+"").addListenerForSingleValueEvent(new ValueEventListener() {
-                @Override
-                public void onDataChange(@NonNull DataSnapshot snapshot) {
-
-                    if(snapshot.exists()) {
-
-                        for(DataSnapshot translations : snapshot.getChildren()) {
-
-                            switch(translations.getKey().toString()) {
-
-                                case "0":
-
-                                    bust = translations.getValue().toString();
-
-                                    break;
-
-                                case "1":
-
-                                    String bustem = bust+" "+translations.getValue().toString();
-
-                                    TextView title = (TextView) findViewById(R.id.titlez);
-
-                                    title.setText(bustem);
-
-
-                                    break;
-
-                                case "2":
-
-                                    String loginemail = translations.getValue().toString();
-
-                                    TextView email = (TextView) findViewById(R.id.email_google);
-
-                                    email.setText(loginemail);
-
-                                    break;
-
-                                case "3":
-
-                                    String phoneNum = translations.getValue().toString();
-
-                                    TextView phone = (TextView) findViewById(R.id.phone_num);
-
-                                    phone.setText(phoneNum);
-
-
-                                    break;
-
-                                case "4":
-
-                                    String termsString = translations.getValue().toString();
-
-                                    TextView terms = (TextView) findViewById(R.id.termz);
-
-                                    terms.setText(termsString);
-
-                                    break;
-
-                            }
-
-                        }
-
-
-
-                    }
-
-                }
-
-                @Override
-                public void onCancelled(@NonNull DatabaseError error) {
-
-                }
-            });
-
-
-        }
-
-        else {
-
-            TextView title = (TextView) findViewById(R.id.titlez);
-
-            title.setText("Bust Nutz");
-
-            TextView email = (TextView) findViewById(R.id.email_google);
-
-            email.setText("Log In With Google");
-
-            TextView phone = (TextView) findViewById(R.id.phone_num);
-
-            phone.setText("Log In With Phone Num");
-
-            TextView terms = (TextView) findViewById(R.id.termz);
-
-            terms.setText("By signing up or loging in, you agree with our Terms. Feel free to see how we use your data in our Privacy Policy.");
-
-
-        }
-
-    }
-
+    String button_selection = "";
 
 
     @Override
@@ -232,13 +82,14 @@ public class MainActivity extends AppCompatActivity {
 
         databaseReference = FirebaseDatabase.getInstance().getReference();
 
-       
 
         google_signin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-                setUp();
+                button_selection = "google";
+
+                setGPS_Permissions();
 
             }
         });
@@ -248,11 +99,29 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
+                button_selection = "phone";
 
-                startActivity(new Intent(MainActivity.this, PhoneVerify.class));
+                setGPS_Permissions();
 
             }
         });
+
+
+    }
+
+
+    private void setGPS_Permissions() {
+
+
+        ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION}, PERMISSIONS_REQUEST);
+
+
+        if (ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.ACCESS_FINE_LOCATION)
+                == PackageManager.PERMISSION_GRANTED || ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.ACCESS_COARSE_LOCATION)
+                == PackageManager.PERMISSION_GRANTED) {
+
+        }
+
 
 
     }
@@ -287,7 +156,33 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
 
+        if (requestCode == PERMISSIONS_REQUEST) {
+            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+
+                if(button_selection.equals("phone")) {
+
+                    startActivity(new Intent(MainActivity.this, PhoneVerify.class));
+
+                }
+
+                else {
+
+                    setUp();
+
+                }
+
+
+                // Permission ok. Do work.
+            }
+        }
+
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+
+    }
 
     private final ActivityResultLauncher<Intent> signInLauncher = registerForActivityResult(
             new FirebaseAuthUIActivityResultContract(),
@@ -356,8 +251,7 @@ public class MainActivity extends AppCompatActivity {
         databaseReference.child("User").child(auth.getUid().toString()).child("login_type").setValue("email");
 
 
-
-        askPermission();
+        startActivity(new Intent(MainActivity.this, myInterface.class));
 
 
     }
@@ -365,6 +259,7 @@ public class MainActivity extends AppCompatActivity {
 
 
 
+/*
     private void askPermission() {
 
 
@@ -378,7 +273,6 @@ public class MainActivity extends AppCompatActivity {
                     && ActivityCompat.checkSelfPermission(MainActivity.this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED
                     && ActivityCompat.checkSelfPermission(MainActivity.this, Manifest.permission.ACCESS_NETWORK_STATE) != PackageManager.PERMISSION_GRANTED) {
 
-                return;
             }
 
             try {
@@ -405,6 +299,21 @@ public class MainActivity extends AppCompatActivity {
                 longitude = 0.0;
             }
 
+
+            Toast.makeText(this, latitude+"", Toast.LENGTH_SHORT).show();
+
+            if(button_selection.equals("google")) {
+
+             //   setUp();
+
+            }
+
+            else  {
+
+              //  startActivity(new Intent(MainActivity.this, PhoneVerify.class));
+
+            }
+
            // Intent toThenNext = new Intent(MainActivity.this, .class);
            // toThenNext.putExtra("type", "emailVerification");
 
@@ -416,13 +325,15 @@ public class MainActivity extends AppCompatActivity {
 
         catch (Exception e) {
 
+            Toast.makeText(this, e.getLocalizedMessage()+" ", Toast.LENGTH_SHORT).show();
+
             e.printStackTrace();
 
         }
 
 
     }
-
+*/
 
 
 }

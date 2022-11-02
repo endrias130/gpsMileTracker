@@ -61,15 +61,14 @@ public class PhoneVerify extends AppCompatActivity {
 
     TextView postcode;
 
-    TextView verify_click_text, my_number, next_button;
+    TextView verify_click_text, my_number, next_button, areacodeLabel;
 
     LinearLayout next, go_to_email, continue_button, verify_buton, verify, phoneinfo, gray_button;
 
+    ImageView backout;
+
     EditText telephonenum;
 
-    String verficationcodee = "";
-
-    String defaultCountry = "";
 
     FirebaseAuth aut;
     FirebaseAuth mAuth;
@@ -78,9 +77,6 @@ public class PhoneVerify extends AppCompatActivity {
 
     String verificationID;
 
-    String userCountry = "";
-
-    String userAddress = "";
 
     Location gps_loc;
     Location network_loc;
@@ -90,8 +86,7 @@ public class PhoneVerify extends AppCompatActivity {
 
     private String location = "North America";
 
-
-    Animation animateo, animationo;
+    Animation animationo;
 
     String searchUp = "";
     String verifyText = "";
@@ -100,169 +95,62 @@ public class PhoneVerify extends AppCompatActivity {
 
     int disabled = 0;
 
-    private static final int REQ_USER_CONSENT = 200;
-    private String mVerificationId = "";
-    private PhoneAuthProvider.ForceResendingToken mResendToken;
-    private PhoneAuthProvider.OnVerificationStateChangedCallbacks mCallbacks;
     private String postcode_num = "+1";
     String prefernceLang = "";
-    private String defaultvar = "";
+    private String myCountry = "";
+    private String myphonenum = "";
+    private String countryCode = "";
 
 
     @Override
     protected void onStart() {
+
         super.onStart();
 
         SharedPreferences phoneInfo = getSharedPreferences("shared_preferences", MODE_PRIVATE);
 
-        if(phoneInfo.contains("Country") && phoneInfo.contains("PostCode")) {
+        if(phoneInfo.contains("Country") && phoneInfo.contains("PostCode"))  {
 
-            updatePostalCode();
+            String countryText = phoneInfo.getString("Country", "");
+
+            String postcodeText = phoneInfo.getString("PostCode", "");
+
+
+            postcode_num = postcodeText;
+
+            myCountry = countryText;
+
+            updatePostCode(postcode_num, myCountry);
 
         }
 
         else {
 
-            SharedPreferences phoneinfo = getSharedPreferences("shared_preferences", MODE_PRIVATE);
+            postcode_num = "+1";
 
-            SharedPreferences.Editor ed;
+            myCountry = "United States";
 
-            ed = phoneinfo.edit();
+            countryCode = "USA";
 
-            ed.putString("Country", "United States");
+            postcode.setText("USA +1");
 
-            ed.putString("PostCode", "+1");
-
-            ed.commit();
-
-
-            updatePostalCode();
+            areacodeLabel.setText("+1");
 
         }
 
     }
 
-    private void updatePostalCode() {
-
-
-        SharedPreferences phoneInfo = getSharedPreferences("shared_preferences", MODE_PRIVATE);
-
-        if(phoneInfo.contains("Country") && phoneInfo.contains("PostCode")) {
-
-            String countryText = phoneInfo.getString("Country", "");
-
-            defaultCountry = countryText;
-
-            String postcodeText = phoneInfo.getString("PostCode", "");
-
-            String[] words = countryText.split("\\s+");
-
-            String abs = "";
-
-            if(words.length > 1) {
-
-                for(String a : words) {
-
-                    if(a.length() > 1) {
-
-                        abs = abs+a.substring(0, 1);
-
-                    }
-
-                }
-
-            }
-
-            else {
-
-                if(countryText.length() > 2) {
-
-                    abs = abs+countryText.substring(0, 2);
-
-                }
-
-            }
-
-
-            String cap = abs.toUpperCase();
-
-            postcode.setText(cap+""+postcodeText+"");
-
-            postcode_num = postcodeText;
-
-
-
-            telephonenum.setText(postcode_num);
-            telephonenum.setSelection(postcode_num.length());
-
-
-            telephonenum.addTextChangedListener(new TextWatcher() {
-                @Override
-                public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-                }
-
-                @Override
-                public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-                    if(charSequence.length() > 0)  {
-
-                        gray_button.setVisibility(View.GONE);
-                        verify_buton.setVisibility(View.GONE);
-                        continue_button.setVisibility(View.VISIBLE);
-
-                        if(charSequence.length() < postcode_num.length()) {
-
-                            telephonenum.setText(postcode_num);
-
-                            telephonenum.setSelection(postcode_num.length());
-
-                        }
-
-                    }
-
-                    else {
-
-                        continue_button.setVisibility(View.GONE);
-                        gray_button.setVisibility(View.VISIBLE);
-
-                    }
-
-                }
-
-                @Override
-                public void afterTextChanged(Editable editable) {
-
-                }
-            });
-
-
-            telephonenum.addTextChangedListener(new PhoneNumberFormattingTextWatcher());
-
-
-        }
-
-
-
-    }
 
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.phone_verify);
 
         aut = FirebaseAuth.getInstance();
 
-        postcode = (TextView) findViewById(R.id.postcodes);
+        setAllViews();
 
-        next = (LinearLayout) findViewById(R.id.on);
-
-        go_to_email = (LinearLayout) findViewById(R.id.to_email_class);
-
-
-        ImageView backout = (ImageView) findViewById(R.id.backOut);
 
         backout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -279,53 +167,55 @@ public class PhoneVerify extends AppCompatActivity {
 
 
 
-        continue_button = (LinearLayout) findViewById(R.id.on);
-
         telephonenum = (EditText) findViewById(R.id.numbertext);
-
         telephonenum.setFocusable(true);
         telephonenum.setFocusableInTouchMode(true);
         telephonenum.requestFocus();
 
 
-
-
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE |WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN | WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
 
-        verify_buton = (LinearLayout) findViewById(R.id.verify_num);
-
-        my_number = (TextView) findViewById(R.id.my_number);
-
-        verify_click_text = (TextView) findViewById(R.id.verify_click);
 
         databaseReference = FirebaseDatabase.getInstance().getReference();
 
-        SharedPreferences languagePreference = getSharedPreferences("shared_preferences", MODE_PRIVATE);
 
-        if(languagePreference.contains("Language")) {
 
-            String lang = languagePreference.getString("Language", "");
+        telephonenum.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
-            if(!prefernceLang.equals(lang)) {
-
-                translateTextViews(lang);
-
-                prefernceLang = lang;
             }
 
-        }
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
-        verify = (LinearLayout) findViewById(R.id.verify);
+                myphonenum = charSequence.toString();
 
-        gray_button = (LinearLayout) findViewById(R.id.off);
+                if(charSequence.length() > 5)  {
+
+                    gray_button.setVisibility(View.GONE);
+                    verify_buton.setVisibility(View.GONE);
+                    continue_button.setVisibility(View.VISIBLE);
 
 
-        verify.setVisibility(View.GONE);
+                }
 
+                else {
 
-        phoneinfo = (LinearLayout) findViewById(R.id.numberinfo);
+                    continue_button.setVisibility(View.GONE);
+                    gray_button.setVisibility(View.VISIBLE);
 
-        phoneinfo.setVisibility(View.VISIBLE);
+                }
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
+
+        telephonenum.addTextChangedListener(new PhoneNumberFormattingTextWatcher());
 
 
 
@@ -334,11 +224,10 @@ public class PhoneVerify extends AppCompatActivity {
 
         next_button.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
+            public void onClick(View view)  {
 
                 InputMethodManager imm = (InputMethodManager) telephonenum.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
                 imm.hideSoftInputFromWindow(telephonenum.getWindowToken(), 0);
-
 
                 String userphonenum =  telephonenum.getText().toString();
 
@@ -351,7 +240,6 @@ public class PhoneVerify extends AppCompatActivity {
                 verify_buton.setVisibility(View.VISIBLE);
 
                 start_bounce_animation(verify_click_text);
-
 
             }
         });
@@ -375,246 +263,115 @@ public class PhoneVerify extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
 
 
+    }
 
 
+    private void updatePostCode(String postcode_num, String myCountry) {
+
+        String[] words = myCountry.split("\\s+");
+
+        String cap = getcombo(words, myCountry).toUpperCase();
+
+
+        countryCode = cap;
+
+
+        String phoneCode = countryCode+""+postcode_num;
+
+        postcode.setText(phoneCode);
+
+        areacodeLabel.setText(postcode_num+"");
 
     }
 
 
 
+    private String getcombo(String[] words, String countryText) {
 
-    private void askPermission() {
+        String combo = "";
 
+        if(words.length > 1) {
 
-        try {
+            for(String a : words) {
 
+                if(a.length() > 1) {
 
-            LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+                    combo = combo+a.substring(0, 1);
 
+                }
 
-            if (ActivityCompat.checkSelfPermission(PhoneVerify.this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
-                    && ActivityCompat.checkSelfPermission(PhoneVerify.this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED
-                    && ActivityCompat.checkSelfPermission(PhoneVerify.this, Manifest.permission.ACCESS_NETWORK_STATE) != PackageManager.PERMISSION_GRANTED) {
-
-                return;
             }
-
-            try {
-
-                gps_loc = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-                network_loc = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
-
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-
-            if (gps_loc != null) {
-                final_loc = gps_loc;
-                latitude = final_loc.getLatitude();
-                longitude = final_loc.getLongitude();
-            }
-            else if (network_loc != null) {
-                final_loc = network_loc;
-                latitude = final_loc.getLatitude();
-                longitude = final_loc.getLongitude();
-            }
-            else {
-                latitude = 0.0;
-                longitude = 0.0;
-            }
-
-
-            verify_click_text.clearAnimation();
-
-            animationo = null;
-
-
-            // Intent toThenNext = new Intent(MainActivity.this, .class);
-            // toThenNext.putExtra("type", "emailVerification");
-
-            // startActivity(toThenNext);
-
-
-        }
-
-
-        catch (Exception e) {
-
-            e.printStackTrace();
-
-        }
-
-
-    }
-
-
-
-    private void translateTextViews(String lang) {
-
-        if(lang.equals("Bengali/Bangla")) {
-
-            lang = "BENGALI";
-
-        }
-
-        else if(lang.equals("Chinese (Simplified)")) {
-
-            lang = "CHINESE_SIMPLIFIED";
-
-        }
-
-        else if(lang.equals("Chinese (Traditional)")) {
-
-            lang = "CHINESE_TRADITIONAL";
 
         }
 
         else {
 
-            lang = lang.toUpperCase();
+            if(countryText.length() > 2) {
+
+                combo = combo+countryText.substring(0, 2);
+
+            }
 
         }
 
 
-        if(!lang.equals("ENGLISH")) {
+        return combo;
+    }
 
-            databaseReference.child("Languages").child("PhonePage").child(lang+"").addListenerForSingleValueEvent(new ValueEventListener() {
-                @Override
-                public void onDataChange(@NonNull DataSnapshot snapshot) {
 
-                    if(snapshot.exists()) {
 
-                        for(DataSnapshot translations : snapshot.getChildren()) {
 
-                            switch(translations.getKey().toString()) {
 
-                                case "0":
+    private void setAllViews() {
 
-                                    String whatNum = translations.getValue().toString();
+        postcode = (TextView) findViewById(R.id.postcodes);
 
-                                    TextView yourNum = (TextView) findViewById(R.id.whatNum);
+        next = (LinearLayout) findViewById(R.id.on);
 
-                                    yourNum.setText(whatNum);
+        go_to_email = (LinearLayout) findViewById(R.id.to_email_class);
 
+        areacodeLabel = (TextView) findViewById(R.id.postcodes2);
 
-                                    break;
 
-                                case "1":
+        verify_buton = (LinearLayout) findViewById(R.id.verify_num);
 
-                                    String infoOnText = translations.getValue().toString();
+        my_number = (TextView) findViewById(R.id.my_number);
 
-                                    TextView infoText = (TextView) findViewById(R.id.textInfo);
+        verify_click_text = (TextView) findViewById(R.id.verify_click);
 
-                                    infoText.setText(infoOnText);
 
+        verify = (LinearLayout) findViewById(R.id.verify);
 
-                                    break;
+        gray_button = (LinearLayout) findViewById(R.id.off);
 
-                                case "2":
 
-                                    searchUp = translations.getValue().toString();
+        verify.setVisibility(View.GONE);
 
 
-                                    break;
+        phoneinfo = (LinearLayout) findViewById(R.id.numberinfo);
 
-                                case "3":
+        phoneinfo.setVisibility(View.VISIBLE);
 
-                                    String continueText = translations.getValue().toString();
+        continue_button = (LinearLayout) findViewById(R.id.on);
 
-
-                                    TextView onbuttonnText = (TextView) findViewById(R.id.onbuttonn);
-
-                                    onbuttonnText.setText(continueText);
-
-
-                                    TextView offbuttontext = (TextView) findViewById(R.id.off_button);
-
-                                    offbuttontext.setText(continueText);
-
-                                    break;
-
-                                case "4":
-
-                                    verifyText = translations.getValue().toString();
-
-                                    verify_click_text.setText(verifyText+"");
-
-                                    break;
-
-                                case "5":
-
-                                    tryAgain = translations.getValue().toString();
-
-                                    break;
-
-                                case "6":
-
-                                    wrongNum = translations.getValue().toString();
-
-                                    break;
-
-                            }
-
-                        }
-
-
-
-                    }
-
-                }
-
-                @Override
-                public void onCancelled(@NonNull DatabaseError error) {
-
-                }
-            });
-
-
-        }
-
-        else {
-
-
-            TextView yourNum = (TextView) findViewById(R.id.whatNum);
-
-            yourNum.setText("What's Your Number?");
-
-
-            TextView infoText = (TextView) findViewById(R.id.textInfo);
-
-            infoText.setText("The next step is to send a text message with a verification code. Message and data rates may apply. The verified phone number can be used to login.");
-
-
-            TextView onbuttonnText = (TextView) findViewById(R.id.onbuttonn);
-
-            onbuttonnText.setText("Continue");
-
-
-            TextView offbuttontext = (TextView) findViewById(R.id.off_button);
-
-            offbuttontext.setText("Continue");
-
-            verify_click_text.setText("Verifying..");
-
-
-        }
+        backout = (ImageView) findViewById(R.id.backOut);
 
     }
+
 
     private void sendVerificationCode(String s) {
 
         try {
 
+            String mynum = postcode_num+s;
 
             PhoneAuthOptions optionsz = PhoneAuthOptions.newBuilder(aut)
-                    .setPhoneNumber(s+"")       // Phone number to verify
+                    .setPhoneNumber(mynum+"")       // Phone number to verify
                     .setTimeout(60L, TimeUnit.SECONDS) // Timeout and unit
                     .setActivity(this)                 // Activity (for callback binding)
                     .setCallbacks(mCallback)
                     .build();
             PhoneAuthProvider.verifyPhoneNumber(optionsz);
-
-
 
         }
 
@@ -718,7 +475,6 @@ public class PhoneVerify extends AppCompatActivity {
 
         PhoneAuthCredential credential = PhoneAuthProvider.getCredential(verificationID, codez);
 
-
         signInByCredentials(credential, codez);
 
     }
@@ -747,7 +503,7 @@ public class PhoneVerify extends AppCompatActivity {
 
                     databaseReference.child("User").child(aut.getUid().toString()).child("id").setValue(aut.getUid()+"");
 
-                    askPermission();
+                    startActivity(new Intent(PhoneVerify.this, myInterface.class));
 
 
                 }
@@ -905,7 +661,6 @@ public class PhoneVerify extends AppCompatActivity {
 
     private void getOtpFromMessage(String message) {
 
-
         Pattern optPattern = Pattern.compile("(|^)\\d(6)");
 
         Matcher matcher = optPattern.matcher(message);
@@ -916,4 +671,6 @@ public class PhoneVerify extends AppCompatActivity {
         }
 
     }
+
+
 }

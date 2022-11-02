@@ -102,7 +102,18 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:layout_marginLeft="10dp"
                     android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/postcodes2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="2.5dp"
+                        android:layout_marginTop=".8dp"
+                        android:text="+1"
+                        android:textColor="#464646"
+                        android:textSize="19.8sp" />
 
                     <EditText
                         android:id="@+id/numbertext"
@@ -112,9 +123,7 @@
                         android:ems="10"
                         android:hint="Number"
                         android:inputType="number|textPersonName"
-                        android:textColor="#202020"
-                        android:textColorHighlight="#80bcf5"
-                        android:textColorLink="#80bcf5"
+                        android:textColor="#464646"
                         android:textSize="19.8sp"
                         tools:visibility="visible" />
 
@@ -143,7 +152,7 @@
                 android:layout_marginLeft="62dp"
                 android:layout_marginRight="62dp"
                 android:layout_marginTop="38dp"
-                android:background="@drawable/contine_on"
+                android:background="@drawable/contine_checked"
                 android:orientation="vertical"
                 android:paddingBottom="12dp"
                 android:paddingTop="12dp"
@@ -171,7 +180,7 @@
                 android:layout_marginLeft="70dp"
                 android:layout_marginRight="70dp"
                 android:layout_marginTop="38dp"
-                android:background="@drawable/contine_on"
+                android:background="@drawable/contine_checked"
                 android:orientation="vertical"
                 android:paddingBottom="13dp"
                 android:paddingTop="13dp"
@@ -274,7 +283,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="27dp"
-                    android:background="@drawable/resendbackgroundtwo"
                     android:orientation="vertical"
                     android:padding="1dp">
 
@@ -283,7 +291,6 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:background="@drawable/resendbackgroundone"
                         android:fontFamily="@font/baloo"
                         android:gravity="center"
                         android:paddingBottom="5.2dp"
@@ -438,7 +445,6 @@
                 android:layout_marginLeft="62dp"
                 android:layout_marginRight="62dp"
                 android:layout_marginTop="60dp"
-                android:background="@drawable/contine_on"
                 android:orientation="vertical"
                 android:paddingBottom="12dp"
                 android:paddingTop="12dp">
