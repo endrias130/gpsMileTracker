@@ -3,8 +3,11 @@ package com.example.gpsmiletracker;
 import android.Manifest;
 import android.annotation.TargetApi;
 import android.app.AlertDialog;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
@@ -77,6 +80,41 @@ public class myInterface extends AppCompatActivity {
 
     public boolean requestingLocationUpdates;
 
+    private BroadcastReceiver broadcastReceiver;
+    private int cnt = 0;
+
+  
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if(broadcastReceiver == null){
+            broadcastReceiver = new BroadcastReceiver() {
+                @Override
+                public void onReceive(Context context, Intent intent) {
+
+                    cnt = cnt + 1;
+
+                    System.out.println("==============location=======================");
+
+                    System.out.println("count: "+cnt+"\n" +intent.getExtras().get("coordinates")+"\n");
+
+                    sendToFirebase(intent.getExtras().get("longitude").toString(), intent.getExtras().get("latitude").toString());
+
+                }
+            };
+        }
+        registerReceiver(broadcastReceiver,new IntentFilter("location_update"));
+    }
+
+
+    private void sendToFirebase(String longitude, String latitude) {
+
+        //Will send to the Firebase Database under the User's ID
+
+
+    }
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -94,25 +132,20 @@ public class myInterface extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                setLocation();
-
+                Intent i = new Intent(getApplicationContext(), GPS_Service.class);
+                startService(i);
+               
+                // setLocation();
             }
         });
 
 
     }
+    
 
 
-    public void stopLocationUpdates() {
-        requestingLocationUpdates = false;
-        LocationServices.getFusedLocationProviderClient(getApplication())
-                .removeLocationUpdates(locationCallback);
-    }
-
-
-
+/*
     private void setLocation() {
-
 
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
 
@@ -187,23 +220,24 @@ public class myInterface extends AppCompatActivity {
 
     }
 
+*/
 
-
-
-
-    private void showMessageOKCancel(String message, DialogInterface.OnClickListener okListener) {
-        new AlertDialog.Builder(myInterface.this)
-                .setMessage(message)
-                .setPositiveButton("OK", okListener)
-                .setNegativeButton("Cancel", null)
-                .create()
-                .show();
-    }
-
+    
     @Override
     protected void onDestroy() {
+       
         super.onDestroy();
-        locationTrack.stopListener();
-    }
 
+        Toast.makeText(this, "destroyed..", Toast.LENGTH_SHORT).show();
+        
+        if(broadcastReceiver != null){
+            unregisterReceiver(broadcastReceiver);
+        }
+
+        
+        //locationTrack.stopListener();
+
+    }
+    
+    
 }
