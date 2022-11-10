@@ -5,7 +5,6 @@ plugins {
 
 android {
     compileSdk 31
-
     defaultConfig {
         applicationId "com.example.gpsmiletracker"
         minSdk 21

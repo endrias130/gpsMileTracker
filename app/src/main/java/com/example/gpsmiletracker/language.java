@@ -439,8 +439,6 @@ public class language extends AppCompatActivity  implements languagesAdapter.Ada
         ed.commit();
 
 
-
-
         finish();
 
     }
