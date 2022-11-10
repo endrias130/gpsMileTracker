@@ -183,12 +183,74 @@ public class GPS_Service extends Service {
 
     private boolean farEnough(double longitude, double latitude) {
 
-        //if the user is at least 200 yards away from their original spot return true.
+        //if the user is at least 50 yards away from their original spot return true.
+
+        boolean checked = true;
+
+        if(myLocation.size() > 0) {
+
+            checked = true;
+
+        }
+
+        else {
 
 
-        return false;
+            double convertMiles = distance(myLocation.get(0).latitude, myLocation.get(0).longtiude, latitude, longitude);
+
+            double convertYards = yards(convertMiles);
+
+
+            if(convertYards >= 50) {
+
+                checked = true;
+
+            }
+
+            else {
+
+                checked = false;
+
+            }
+
+        }
+
+
+        return checked;
 
     }
+
+
+    private double yards(double convertMiles) {
+
+        double convertYardz = convertMiles * 1760;
+
+        return convertYardz;
+    }
+
+
+    private double distance(double lat1, double lon1, double lat2, double lon2) {
+        double theta = lon1 - lon2;
+        double dist = Math.sin(deg2rad(lat1))
+                * Math.sin(deg2rad(lat2))
+                + Math.cos(deg2rad(lat1))
+                * Math.cos(deg2rad(lat2))
+                * Math.cos(deg2rad(theta));
+        dist = Math.acos(dist);
+        dist = rad2deg(dist);
+        dist = dist * 60 * 1.1515;
+        return (dist);
+    }
+
+
+    private double deg2rad(double deg) {
+        return (deg * Math.PI / 180.0);
+    }
+
+    private double rad2deg(double rad) {
+        return (rad * 180.0 / Math.PI);
+    }
+
 
     @Override
     public void onDestroy()  {
