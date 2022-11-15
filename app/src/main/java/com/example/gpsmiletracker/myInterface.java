@@ -18,6 +18,7 @@ import android.os.Bundle;
 import android.os.Looper;
 import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -58,7 +59,7 @@ public class myInterface extends AppCompatActivity {
 
     LocationTrack locationTrack;
 
-    LinearLayout submit;
+    LinearLayout startTrip, endTrip;
     JSONObject jsonObject;
 
     Location gps_loc;
@@ -86,11 +87,11 @@ public class myInterface extends AppCompatActivity {
     private BroadcastReceiver broadcastReceiver;
     private int cnt = 0;
 
-  
 
     @Override
     protected void onResume() {
         super.onResume();
+
         if(broadcastReceiver == null){
             broadcastReceiver = new BroadcastReceiver() {
                 @Override
@@ -98,24 +99,54 @@ public class myInterface extends AppCompatActivity {
 
                     cnt = cnt + 1;
 
-                    System.out.println("==============location=======================");
+                    //System.out.println("==============location=======================");
 
-                    System.out.println("count: "+cnt+"\n" +intent.getExtras().get("coordinates")+"\n");
+                   // System.out.println("count: "+cnt+" Location - longitude point = \n"+intent.getExtras().get("longitude").toString()+"\nlatitude point = "+intent.getExtras().get("latitude").toString()+"\nCity/State = "+intent.getExtras().get("city").toString()+" "+intent.getExtras().get("city").toString()+"");
 
-                    sendToFirebase(intent.getExtras().get("longitude").toString(), intent.getExtras().get("latitude").toString());
+                    System.out.println("count: "+cnt+" Location\nlongitude point = "+intent.getExtras().get("longitude").toString()+"\nlatitude point = "+intent.getExtras().get("latitude").toString()+"\nCity/State = "+intent.getExtras().get("city").toString()+" "+intent.getExtras().get("state").toString()+"");
+
+                    sendToFirebase(intent.getExtras().get("longitude").toString(), intent.getExtras().get("latitude").toString(), intent.getExtras().get("currentDate").toString(), cnt);
+
+                    TextView xVal = (TextView) findViewById(R.id.xVal);
+                    TextView yVal = (TextView) findViewById(R.id.yVa);
+                    TextView cityVal = (TextView) findViewById(R.id.cityVal);
+
+
+                    xVal.setText(intent.getExtras().get("longitude").toString());
+
+                    yVal.setText(intent.getExtras().get("latitude").toString());
+
+                    cityVal.setText(intent.getExtras().get("city").toString());
+                    /*
+                    if(intent.getExtras().get("pushData").toString().equals("true")) {
+
+                    }
+*/
 
                 }
             };
         }
+
         registerReceiver(broadcastReceiver,new IntentFilter("location_update"));
+
     }
 
 
-    private void sendToFirebase(String longitude, String latitude) {
+    private void sendToFirebase(String longitude, String latitude, String currentDate, int cnt) {
 
         //Will send to the Firebase Database under the User's ID
 
-        ref.child("User").child("Locations").addListenerForSingleValueEvent(new ValueEventListener() {
+        ref.child("User").child(auth.getUid()+"").child("Locations").child(currentDate+"").child(cnt+"").child("x").setValue(longitude+"");
+
+        ref.child("User").child(auth.getUid()+"").child("Locations").child(currentDate+"").child(cnt+"").child("y").setValue(latitude+"");
+
+        Long currentTime = System.currentTimeMillis();
+
+        ref.child("User").child(auth.getUid()+"").child("Locations").child(currentDate+"").child(cnt+"").child("time").setValue(currentTime+"");
+
+/*
+
+        ref.child("User").child("Locations").child(currentDate+"").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
 
@@ -123,16 +154,28 @@ public class myInterface extends AppCompatActivity {
 
                     int nextNode = (int) snapshot.getChildrenCount();
 
-                    ref.child("User").child("Locations").child(nextNode+"").child("x").setValue(longitude+"");
+                    ref.child("User").child(auth.getUid()+"").child("Locations").child(currentDate+"").child(cnt+"").child("x").setValue(longitude+"");
 
-                    ref.child("User").child("Locations").child(nextNode+"").child("y").setValue(latitude+"");
+                    ref.child("User").child(auth.getUid()+"").child("Locations").child(currentDate+"").child(cnt+"").child("y").setValue(latitude+"");
 
                     Long currentTime = System.currentTimeMillis();
 
-                    ref.child("User").child("Locations").child(nextNode+"").child("date").setValue(currentTime+"");
+                    ref.child("User").child(auth.getUid()+"").child("Locations").child(currentDate+"").child(cnt+"").child("time").setValue(currentTime+"");
 
                 }
 
+
+                else {
+
+                    ref.child("User").child(auth.getUid()+"").child("Locations").child(currentDate+"").child(cnt+"").child("x").setValue(longitude+"");
+
+                    ref.child("User").child(auth.getUid()+"").child("Locations").child(currentDate+"").child(cnt+"").child("y").setValue(latitude+"");
+
+                    Long currentTime = System.currentTimeMillis();
+
+                    ref.child("User").child(auth.getUid()+"").child("Locations").child(currentDate+"").child(cnt+"").child("time").setValue(currentTime+"");
+
+                }
             }
 
             @Override
@@ -140,6 +183,8 @@ public class myInterface extends AppCompatActivity {
 
             }
         });
+*/
+
 
     }
 
@@ -154,19 +199,61 @@ public class myInterface extends AppCompatActivity {
         ref = FirebaseDatabase.getInstance().getReference();
 
 
-        submit = (LinearLayout) findViewById(R.id.submit);
+        startTrip = (LinearLayout) findViewById(R.id.startTrip);
 
-        submit.setOnClickListener(new View.OnClickListener() {
+        startTrip.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
+                showEndButton();
+
+                //tracking the user's geolocation data
+
                 Intent i = new Intent(getApplicationContext(), GPS_Service.class);
                 startService(i);
-               
-                // setLocation();
             }
         });
 
+
+
+        endTrip = (LinearLayout) findViewById(R.id.endTrip);
+
+        endTrip.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                showStartButton();
+
+                //no longer tracking the user's geolocation data
+
+                if(broadcastReceiver != null) {
+
+                    unregisterReceiver(broadcastReceiver);
+
+                    Toast.makeText(myInterface.this, "Your trip has come to an end..", Toast.LENGTH_SHORT).show();
+
+                }
+
+            }
+        });
+
+    }
+
+
+    private void showStartButton() {
+
+        endTrip.setVisibility(View.GONE);
+
+        startTrip.setVisibility(View.VISIBLE);
+
+    }
+
+
+    private void showEndButton() {
+
+        startTrip.setVisibility(View.GONE);
+
+        endTrip.setVisibility(View.VISIBLE);
 
     }
     
@@ -261,9 +348,6 @@ public class myInterface extends AppCompatActivity {
         if(broadcastReceiver != null){
             unregisterReceiver(broadcastReceiver);
         }
-
-        
-        //locationTrack.stopListener();
 
     }
     

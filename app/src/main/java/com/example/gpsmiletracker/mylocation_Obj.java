@@ -4,17 +4,22 @@ public class mylocation_Obj {
 
     double longtiude, latitude;
 
-    String country, state ,city;
+    String currentDate;
 
-    public mylocation_Obj(double longtiude, double latitude, String country, String city, String state) {
+    public mylocation_Obj(double longtiude, double latitude, String currentDate) {
         this.longtiude = longtiude;
         this.latitude = latitude;
-        this.country = country;
-        this.city = city;
-        this.state = state;
 
+        this.currentDate = currentDate;
     }
 
+    public String getCurrentDate() {
+        return currentDate;
+    }
+
+    public void setCurrentDate(String currentDate) {
+        this.currentDate = currentDate;
+    }
 
     public double getLongtiude() {
         return longtiude;
@@ -32,27 +37,4 @@ public class mylocation_Obj {
         this.latitude = latitude;
     }
 
-    public String getState() {
-        return state;
-    }
-
-    public void setState(String state) {
-        this.state = state;
-    }
-
-    public String getCountry() {
-        return country;
-    }
-
-    public void setCountry(String country) {
-        this.country = country;
-    }
-
-    public String getCity() {
-        return city;
-    }
-
-    public void setCity(String city) {
-        this.city = city;
-    }
 }

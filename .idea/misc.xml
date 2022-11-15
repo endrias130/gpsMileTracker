@@ -13,6 +13,7 @@
         <entry key="app/src/main/res/drawable/contine_on.xml" value="0.171" />
         <entry key="app/src/main/res/drawable/login_background.xml" value="0.194" />
         <entry key="app/src/main/res/drawable/picem.xml" value="0.1665" />
+        <entry key="app/src/main/res/drawable/red_end_trip.xml" value="0.1665" />
         <entry key="app/src/main/res/drawable/resendbackgroundone.xml" value="0.1635" />
         <entry key="app/src/main/res/drawable/resendbackgroundtwo.xml" value="0.1635" />
         <entry key="app/src/main/res/drawable/search_background.xml" value="0.171" />
@@ -24,7 +25,7 @@
         <entry key="app/src/main/res/layout/phone_verify.xml" value="0.24871261031539355" />
         <entry key="app/src/main/res/layout/postcodes.xml" value="0.26851851851851855" />
         <entry key="app/src/main/res/layout/tracker.xml" value="0.23981481481481481" />
-        <entry key="app/src/main/res/layout/userinterface.xml" value="0.22607218424479164" />
+        <entry key="app/src/main/res/layout/userinterface.xml" value="0.25463968912760415" />
       </map>
     </option>
   </component>
