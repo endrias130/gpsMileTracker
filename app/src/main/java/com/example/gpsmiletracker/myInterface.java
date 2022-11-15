@@ -98,11 +98,7 @@ public class myInterface extends AppCompatActivity {
                 public void onReceive(Context context, Intent intent) {
 
                     cnt = cnt + 1;
-
-                    //System.out.println("==============location=======================");
-
-                   // System.out.println("count: "+cnt+" Location - longitude point = \n"+intent.getExtras().get("longitude").toString()+"\nlatitude point = "+intent.getExtras().get("latitude").toString()+"\nCity/State = "+intent.getExtras().get("city").toString()+" "+intent.getExtras().get("city").toString()+"");
-
+                    
                     System.out.println("count: "+cnt+" Location\nlongitude point = "+intent.getExtras().get("longitude").toString()+"\nlatitude point = "+intent.getExtras().get("latitude").toString()+"\nCity/State = "+intent.getExtras().get("city").toString()+" "+intent.getExtras().get("state").toString()+"");
 
                     sendToFirebase(intent.getExtras().get("longitude").toString(), intent.getExtras().get("latitude").toString(), intent.getExtras().get("currentDate").toString(), cnt);
@@ -111,17 +107,11 @@ public class myInterface extends AppCompatActivity {
                     TextView yVal = (TextView) findViewById(R.id.yVa);
                     TextView cityVal = (TextView) findViewById(R.id.cityVal);
 
-
                     xVal.setText(intent.getExtras().get("longitude").toString());
 
                     yVal.setText(intent.getExtras().get("latitude").toString());
 
                     cityVal.setText(intent.getExtras().get("city").toString());
-                    /*
-                    if(intent.getExtras().get("pushData").toString().equals("true")) {
-
-                    }
-*/
 
                 }
             };
@@ -143,47 +133,6 @@ public class myInterface extends AppCompatActivity {
         Long currentTime = System.currentTimeMillis();
 
         ref.child("User").child(auth.getUid()+"").child("Locations").child(currentDate+"").child(cnt+"").child("time").setValue(currentTime+"");
-
-/*
-
-        ref.child("User").child("Locations").child(currentDate+"").addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-
-                if(snapshot.exists()) {
-
-                    int nextNode = (int) snapshot.getChildrenCount();
-
-                    ref.child("User").child(auth.getUid()+"").child("Locations").child(currentDate+"").child(cnt+"").child("x").setValue(longitude+"");
-
-                    ref.child("User").child(auth.getUid()+"").child("Locations").child(currentDate+"").child(cnt+"").child("y").setValue(latitude+"");
-
-                    Long currentTime = System.currentTimeMillis();
-
-                    ref.child("User").child(auth.getUid()+"").child("Locations").child(currentDate+"").child(cnt+"").child("time").setValue(currentTime+"");
-
-                }
-
-
-                else {
-
-                    ref.child("User").child(auth.getUid()+"").child("Locations").child(currentDate+"").child(cnt+"").child("x").setValue(longitude+"");
-
-                    ref.child("User").child(auth.getUid()+"").child("Locations").child(currentDate+"").child(cnt+"").child("y").setValue(latitude+"");
-
-                    Long currentTime = System.currentTimeMillis();
-
-                    ref.child("User").child(auth.getUid()+"").child("Locations").child(currentDate+"").child(cnt+"").child("time").setValue(currentTime+"");
-
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
-*/
 
 
     }
