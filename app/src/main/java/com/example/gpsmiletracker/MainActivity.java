@@ -231,7 +231,6 @@ public class MainActivity extends AppCompatActivity {
 
     private void keepGoing() {
 
-
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
         String emmail = user.getEmail();
@@ -239,9 +238,6 @@ public class MainActivity extends AppCompatActivity {
         int index = emmail.indexOf("@");
 
         String email_username = emmail.substring(0, index);
-
-
-        Toast.makeText(this, "Your User ID is:  "+auth.getUid().toString(), Toast.LENGTH_SHORT).show();
 
 
         databaseReference.child("User").child(auth.getUid().toString()).child("id").setValue(auth.getUid()+"");
@@ -252,7 +248,6 @@ public class MainActivity extends AppCompatActivity {
 
 
         startActivity(new Intent(MainActivity.this, myInterface.class));
-
 
     }
 
