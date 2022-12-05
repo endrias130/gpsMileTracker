@@ -1,5 +1,5 @@
 # gpsMileTracker
-CS-4850-02 - CO3 - Blue Mileage Tracker.
+CS-4850-02 - CO3 - Blue Mileage Tracker 
 Instructor: Sharon Perry
 ## Contributors:
 Endrias Mekonnen
