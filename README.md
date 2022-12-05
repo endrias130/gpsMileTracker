@@ -1,11 +1,11 @@
 # gpsMileTracker
-CS-4850-02 - CO3 - Blue Mileage Tracker__
+CS-4850-02 - CO3 - Blue Mileage Tracker\
 Instructor: Sharon Perry
 ## Contributors:
-Endrias Mekonnen__
-Jarrad Self__
-Jaden Berezinski__
-Phu Phan__
+Endrias Mekonnen\
+Jarrad Self\
+Jaden Berezinski\
+Phu Phan\
 Shiva Mapchan
 ## Abstract
 This is an Android app that can track mileage traveled and time elapsed for the user.
